@@ -1,0 +1,40 @@
+
+//qs link:https://www.spoj.com/problems/ONP/
+
+//tag:stack
+
+
+#include<iostream>
+#include<stack>
+#define ll long long int
+using namespace std;
+int main()
+{
+    ll t;
+    cin>>t;
+    while(t--)
+    {
+        string str;
+        cin>>str;
+        stack<char> s1;
+        for(ll i=0;i<str.size();i++)
+        {
+            if(str[i]=='(')
+            continue;
+            if(str[i]=='+'||str[i]=='-'||str[i]=='*'||str[i]=='/'||str[i]=='^')
+            s1.push(str[i]);
+            else
+            {
+                if(str[i]!=')')
+                cout<<str[i];
+                else
+                {
+                    cout<<s1.top();
+                    s1.pop();
+                }
+            }
+        }
+        cout<<endl;
+    }
+    return(0);
+}
