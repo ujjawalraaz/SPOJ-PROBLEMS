@@ -1,0 +1,83 @@
+
+//qs link:https://www.spoj.com/problems/SHPATH/
+
+
+#include<iostream>
+#include<queue>
+#include<vector>
+#include<unordered_map>
+#include<bits/stdc++.h>
+#define ll long long int
+using namespace std;
+ll shortest_path(ll src,ll dest,ll n,vector<pair<ll,ll>> v1[])
+{
+	priority_queue<pair<ll,ll>,vector<pair<ll,ll>>,greater<pair<ll,ll>>> p1;
+	p1.push(make_pair(0,src));
+	ll dist[n+1];
+	for(ll i=0;i<=n;i++)
+	dist[i]=INT_MAX;
+	dist[src]=0;
+	while(!p1.empty())
+	{
+		//pair<ll,ll> temp=p1.top();
+        ll u=p1.top().second;
+        ll co=p1.top().first;
+        p1.pop();
+      //  cout<<"ujjawal"<<endl;
+        if(co!=dist[u])
+        	continue;
+        if(u==dest)
+        return(dist[u]);
+    //    cout<<"mdcewl"<<endl;
+        for(ll i=0;i<v1[u].size();i++)
+        {
+      //      cout<<"cc"<<endl; 
+            pair<ll,ll> p2=v1[u][i];
+            ll v=p2.second;
+            ll cost=p2.first;
+            if(dist[v]>dist[u]+cost){
+            	dist[v]=dist[u]+cost;
+            	p1.push(make_pair(dist[v],v));
+            }
+        }
+	}
+}
+
+int main()
+{
+	ll t;
+	cin>>t;
+	while(t--)
+	{
+		ll n;
+		cin>>n;
+		vector<pair<ll,ll>> v1[n+1];
+		unordered_map<string,ll> umap;
+		for(ll i=1;i<=n;i++)
+		{
+            string name;
+            cin>>name;
+            umap[name]=i;
+            ll m;
+            cin>>m;
+            for(ll j=0;j<m;j++)
+            {
+            	ll v,cost;
+            	cin>>v>>cost;
+            	v1[i].push_back(make_pair(cost,v));
+            	//v1[v].push_back(make_pair(cost,i));
+            }
+		}
+		ll n1;
+		cin>>n1;
+		for(ll i=0;i<n1;i++)
+		{
+			string src,dest;
+			cin>>src>>dest;
+		//	cout<<umap[src]<<" "<<umap[dest]<<endl;
+			cout<<shortest_path(umap[src],umap[dest],n,v1)<<endl;
+		}
+		cout<<endl;
+	}
+	return(0);
+}
